@@ -13,7 +13,7 @@ package com.sots {
 	 */
 	public class Map extends Sprite {
 		
-		[Embed(source="../../assets/data/fligshts.xml", mimeType="application/octet-stream")]
+		[Embed(source="../../assets/fligshts.xml", mimeType="application/octet-stream")]
 		private const FLIGHTS:Class;
 		
 		private var flightsData:XML = new XML(new FLIGHTS().toString());

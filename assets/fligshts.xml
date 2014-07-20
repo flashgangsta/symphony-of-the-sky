@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<fligshtsList>
+		<flight from="moscow" 		to="minsk" 			type="A320" number="SU1832" 	size="37" />
+		<flight from="moscow" 		to="berlin" 		type="B737" number="SU2318" 	size="37" />
+		<flight from="moscow" 		to="newYork" 		type="B777" number="SU100" 		size="60" />
+		<flight from="moscow" 		to="london" 		type="A330" number="SU2578" 	size="60" />
+		<flight from="moscow" 		to="rome"	 		type="A320" number="SU2400" 	size="37" />
+		<flight from="moscow" 		to="losAngeles" 	type="B777" number="SU106" 		size="60" />
+		<flight from="moscow" 		to="kaliningrad" 	type="B737" number="SU1002" 	size="37" />
+		<flight from="moscow" 		to="barcelona" 		type="A320" number="SU2638" 	size="37" />
+		<flight from="moscow" 		to="prague" 		type="A320" number="SU2012" 	size="37" />
+		<flight from="moscow" 		to="vilnus" 		type="B737" number="SU2108" 	size="37" />
+		<flight from="minsk" 		to="moscow" 		type="A320" number="SU1833" 	size="37" />
+		<flight from="berlin" 		to="moscow" 		type="A320" number="SU2319" 	size="37" />
+		<flight from="newYork" 		to="moscow" 		type="B777" number="SU101" 		size="60" />
+		<flight from="london" 		to="moscow" 		type="A330" number="SU2579" 	size="60" />
+		<flight from="rome" 		to="moscow" 		type="A320" number="SU2401" 	size="37" />
+		<flight from="losAngeles" 	to="moscow" 		type="B777" number="SU107" 		size="60" />
+		<flight from="kaliningrad" 	to="moscow" 		type="A320" number="SU1003" 	size="37" />
+		<flight from="barcelona" 	to="moscow" 		type="A320" number="SU2639" 	size="37" />
+		<flight from="prague" 		to="moscow" 		type="A320" number="SU2013" 	size="37" />
+		<flight from="vilnus" 		to="moscow" 		type="B737" number="SU2108" 	size="37" />
+	</fligshtsList>
+</data>
