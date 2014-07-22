@@ -6,6 +6,8 @@ package com.sots {
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
+	import starling.textures.TextureSmoothing;
+
 	
 	/**
 	 * ...
@@ -17,21 +19,18 @@ package com.sots {
 		private const FLIGHTS:Class;
 		
 		private var flightsData:XML = new XML(new FLIGHTS().toString());
+		private const flightsContainer:Sprite = new Sprite();
 		private var mapBMD:MapBMD = new MapBMD();
 		private var mapImage:Image = new Image(Texture.fromBitmapData(mapBMD));
-		private var flightsModelsList:Vector.<FlightModel> = new Vector.<FlightModel>();
-		
 		
 		public function Map() {
-			super();
-		}
-		
-		public function init():void {
 			var i:int;
 			
 			// init map
 			mapBMD.dispose();
 			mapBMD = null;
+			mapImage.touchable = false;
+			mapImage.smoothing = TextureSmoothing.TRILINEAR;
 			addChild(mapImage);
 			
 			//init fligts model
@@ -44,6 +43,7 @@ package com.sots {
 			var toMarker:DisplayObject;
 			var fromPoint:Point;
 			var toPoint:Point;
+			var flight:FlightView;
 			
 			for (i = 0; i < flightsLength; i++) {
 				flightData = flightsXMLList[i];
@@ -52,29 +52,20 @@ package com.sots {
 				fromPoint = new Point(int(fromMarker.x), int(fromMarker.y));
 				toPoint = new Point(int(toMarker.x), int(toMarker.y));
 				flightModel = new FlightModel(flightData, fromPoint, toPoint);
-				flightsModelsList.push(flightModel);
+				flight = new FlightView(flightModel);
+				flightsContainer.addChild(flight);
+				flight.startFlying();
 			}
 			
-			// moscow - minsk
-			var flight:FlightView = new FlightView(flightsModelsList[0]);
-			addChild(flight);
-			flight.startFly();
-			
-			// laliningrad - moscow
-			flight = new FlightView(flightsModelsList[16]);
-			addChild(flight);
-			flight.startFly();
-			
-			//rome - moscow
-			flight = new FlightView(flightsModelsList[14]);
-			addChild(flight);
-			flight.startFly();
-			
-			//london - moscow
-			flight = new FlightView(flightsModelsList[13]);
-			addChild(flight);
-			flight.startFly();
-			
+			addChild(flightsContainer);
+		}
+		
+		public function lockFlights():void {
+			removeChild(flightsContainer);
+		}
+		
+		public function unlockFlights():void {
+			addChild(flightsContainer);
 		}
 		
 	}

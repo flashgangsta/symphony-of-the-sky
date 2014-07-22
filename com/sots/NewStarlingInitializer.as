@@ -81,14 +81,14 @@ package com.sots {
 		 */
 		
 		private function onStageRisized(event:flash.events.Event = null):void {
-			var stageRect:Rectangle = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+			Main.STAGE_RECT = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 			if (_starling) {
-				_starling.viewPort.x = stageRect.x;
-				_starling.viewPort.y = stageRect.y;
-				_starling.viewPort.width = stageRect.width;
-				_starling.viewPort.height = stageRect.height;
-				_starling.stage.stageWidth = stageRect.width;
-				_starling.stage.stageHeight = stageRect.height;
+				_starling.viewPort.x = Main.STAGE_RECT.x;
+				_starling.viewPort.y = Main.STAGE_RECT.y;
+				_starling.viewPort.width = Main.STAGE_RECT.width;
+				_starling.viewPort.height = Main.STAGE_RECT.height;
+				_starling.stage.stageWidth = Main.STAGE_RECT.width;
+				_starling.stage.stageHeight = Main.STAGE_RECT.height;
 			}
 			
 			if (main) {
@@ -96,7 +96,7 @@ package com.sots {
 			}
 			
 			if(this.launchImage) {
-				MappingManager.setScaleFillArea(launchImage, stageRect);
+				MappingManager.setScaleFillArea(launchImage, Main.STAGE_RECT);
 			}
 		}
 		

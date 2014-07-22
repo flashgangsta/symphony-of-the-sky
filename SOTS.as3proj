@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="publish\SOTS.swf" />
+    <movie path="publish\sots.swf" />
     <movie fps="60" />
     <movie width="2000" />
     <movie height="1300" />
@@ -55,6 +55,7 @@
     <element path="libs\starling.swc" />
     <element path="libs\assets.swc" />
     <element path="libs\tweener.swc" />
+    <element path="libs\feathers.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

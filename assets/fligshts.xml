@@ -21,5 +21,11 @@
 		<flight from="barcelona" 	to="moscow" 		type="A320" number="SU2639" 	size="37" />
 		<flight from="prague" 		to="moscow" 		type="A320" number="SU2013" 	size="37" />
 		<flight from="vilnus" 		to="moscow" 		type="B737" number="SU2108" 	size="37" />
+		<flight from="minsk" 		to="stPetersburg" 	type="B737" number="B2941" 		size="37" />
+		<flight from="minsk" 		to="reykjavik" 		type="B777" number="B2941" 		size="60" />
+		<flight from="minsk" 		to="kiev" 			type="B737" number="B2843" 		size="37" />
+		<flight from="stPetersburg" to="minsk" 			type="B737" number="B2942" 		size="37" />
+		<flight from="reykjavik" 	to="minsk" 			type="B777" number="B2802" 		size="60" />
+		<flight from="kiev" 		to="minsk" 			type="B737" number="B2844" 		size="37" />
 	</fligshtsList>
 </data>
