@@ -18,19 +18,19 @@ package com.sots {
 	 * @author Sergey Krivtsov (flashgangsta@gmail.com)
 	 */
 	public class FlightView extends Sprite {
-		private const planeShadow:DropShadowFilter = new DropShadowFilter(11, 45, 0, 1, 13, 13, .47, BitmapFilterQuality.HIGH);
+		private const PLANE_SHADOW:DropShadowFilter = new DropShadowFilter(11, 45, 0, 1, 13, 13, .47, BitmapFilterQuality.HIGH);
 		private const MIN_FLIGHT_DELAY:Number = 10000;
 		private const MAX_FLIGHT_DELAY:Number = 40000;
 		private var model:FlightModel;
 		private var flightTexture:Texture;
+		private var _collisionPlayed:Boolean = false;
 		
-		public function FlightView(model:FlightModel) {
+		public function FlightView(planeBMD:PlaneBMD, model:FlightModel) {
 			this.model = model;
 			
-			var planeBMD:PlaneBMD = new PlaneBMD();
 			var planeBitmap:Bitmap = new Bitmap(planeBMD, PixelSnapping.NEVER);
 			var planeContainer:flash.display.Sprite = new flash.display.Sprite();
-			var shadowMargin:int = Math.max(planeShadow.blurX, planeShadow.blurY, planeShadow.distance);
+			var shadowMargin:int = Math.max(PLANE_SHADOW.blurX, PLANE_SHADOW.blurY, PLANE_SHADOW.distance);
 			var matrix:Matrix = new Matrix();
 			var planeBounds:Rectangle;
 			var planeWithShadowBMD:BitmapData;
@@ -38,7 +38,7 @@ package com.sots {
 			
 			planeBitmap.scaleX = planeBitmap.scaleY = model.scale;
 			planeBitmap.rotation = model.rotation * (180 / Math.PI);
-			planeBitmap.filters = [planeShadow];
+			planeBitmap.filters = [PLANE_SHADOW];
 			planeBitmap.smoothing = true;
 			planeContainer.addChild(planeBitmap);
 			
@@ -57,11 +57,6 @@ package com.sots {
 			planeWithShadowBMD.unlock();
 			
 			flightTexture = Texture.fromBitmapData(planeWithShadowBMD);
-			
-			//dispose
-			
-			planeBMD.dispose();
-			planeBMD = null;
 			
 			planeWithShadowBMD.dispose();
 			planeWithShadowBMD = null;
@@ -97,6 +92,30 @@ package com.sots {
 		 * 
 		 */
 		
+		public function get collisionPlayed():Boolean {
+			return _collisionPlayed;
+		}
+		
+		/**
+		 * 
+		 */
+		
+		public function set collisionPlayed(value:Boolean):void {
+			_collisionPlayed = value;
+		}
+		
+		/**
+		 * 
+		 */
+		
+		public function get planeScale():Number {
+			return model.scale;
+		}
+		
+		/**
+		 * 
+		 */
+		
 		private function startFly(distancePrecent:Number = 1):void {
 			const plane:PlaneView = new PlaneView(flightTexture);
 			const distance:Number = model.distance * distancePrecent;
@@ -107,16 +126,6 @@ package com.sots {
 				y: model.toPoint.y,
 				time: distance / model.speed,
 				transition: "linear",
-				/*onUpdate: function():void {
-					const planeBounds:Rectangle = this.getBounds(stage);
-					const stageBounds:Rectangle = Starling.current.viewPort.clone();
-					stageBounds.x -= planeBounds.width;
-					stageBounds.y -= planeBounds.height;
-					stageBounds.width += planeBounds.width * 2;
-					stageBounds.height += planeBounds.height * 2;
-					this.visible = stageBounds.containsRect(planeBounds);
-					trace(this.visible);
-				},*/
 				onComplete: function():void {
 					onPlaneArrival(plane);
 				}

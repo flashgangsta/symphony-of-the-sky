@@ -7,6 +7,7 @@ package com.sots {
 	 * ...
 	 * @author Sergey Krivtsov (flashgangsta@gmail.com)
 	 */
+	
 	public class PlaneView extends Sprite {
 		
 		public function PlaneView(texture:Texture) {
@@ -14,6 +15,7 @@ package com.sots {
 			image.x = -Math.round(image.width / 2);
 			image.y = -Math.round(image.height / 2);
 			addChild(image);
+			touchable = false;
 		}
 		
 		/**

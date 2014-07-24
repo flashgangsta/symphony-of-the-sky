@@ -5,6 +5,7 @@ package com.sots {
 	import assets.bitmaps.ToolbarBGCenter;
 	import assets.bitmaps.ToolbarBGTop;
 	import com.flashgangsta.managers.MappingManager;
+	import com.sots.events.ToolbarEvent;
 	import feathers.controls.Slider;
 	import feathers.display.Scale9Image;
 	import feathers.textures.Scale9Textures;
@@ -22,7 +23,7 @@ package com.sots {
 	
 	public class ToolbarView extends Sprite {
 		
-		private var radiusSlider:Slider = new Slider();
+		private var sizeSlider:Slider = new Slider();
 		private var speedSlider:Slider = new Slider();
 		
 		public function ToolbarView() {
@@ -44,36 +45,47 @@ package com.sots {
 			
 			const sliderFactory:SliderFactory = SliderFactory.getInstance();
 			
-			radiusSlider = sliderFactory.getNewSlider();
+			sizeSlider = sliderFactory.getNewSlider();
 			speedSlider = sliderFactory.getNewSlider();
 			
-			radiusSlider.step = speedSlider.step = 1;
-			radiusSlider.page = speedSlider.page = 1;
+			sizeSlider.step = speedSlider.step = .005;
+			sizeSlider.page = speedSlider.page = 1;
 			
-			radiusSlider.x = speedSlider.x = MappingManager.getCentricPoint(bgBottom.width, radiusSlider.width);
+			sizeSlider.x = speedSlider.x = MappingManager.getCentricPoint(bgBottom.width, sizeSlider.width);
 			speedSlider.addEventListener(Event.CHANGE, changeSpeed);
-			radiusSlider.addEventListener(Event.CHANGE, changeRadius);
+			sizeSlider.addEventListener(Event.CHANGE, changeRadius);
 			
-			radiusSlider.minimum = 50;
-			radiusSlider.maximum = 500;
-			radiusSlider.value = 250;
-			radiusSlider.y = bgBottom.y + 552;
-			addChild(radiusSlider);
+			sizeSlider.minimum = .1;
+			sizeSlider.maximum = 1;
+			sizeSlider.value = .5;
+			sizeSlider.y = bgBottom.y + 388;
+			addChild(sizeSlider);
 			
-			speedSlider.minimum = 10;
-			speedSlider.maximum = 100;
-			speedSlider.value = 50;
-			speedSlider.y = bgBottom.y + 388;
+			speedSlider.minimum = .1;
+			speedSlider.maximum = 1;
+			speedSlider.value = .5;
+			speedSlider.y = bgBottom.y + 552;
 			addChild(speedSlider);
 			
+			trace(sizeSlider.value);
+		}
+		
+		public function get circleSize():Number {
+			return sizeSlider.value;
+		}
+		
+		public function get circleSpeed():Number {
+			return speedSlider.value;
 		}
 		
 		private function changeSpeed(event:Event):void {
 			trace("Change speed to:", speedSlider.value);
+			dispatchEvent(new ToolbarEvent(ToolbarEvent.AREA_SPEED_CHANGED));
 		}
 		
 		private function changeRadius(event:Event):void {
-			trace("Change radius to:", radiusSlider.value);
+			trace("Change radius to:", sizeSlider.value);
+			dispatchEvent(new ToolbarEvent(ToolbarEvent.AREA_SIZE_CHANGED));
 		}
 		
 	}
