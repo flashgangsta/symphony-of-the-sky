@@ -16,6 +16,8 @@ package com.sots {
 	public class Application extends Sprite {
 		
 		static public var STAGE_RECT:Rectangle;
+		static public const MAX_TEXTURE_SIZE:int = 2048;
+		static public const IS_FLIGHTS_ANOUNSING_NEED:Boolean = false;
 		private var map:MapView = new MapView();
 		private var toolbar:ToolbarView = new ToolbarView();
 		private var circlesContainer:CirclesContainerView = new CirclesContainerView();
@@ -49,12 +51,11 @@ package com.sots {
 		 */
 		
 		private function onCircleUpdated(event:CircleEvent):void {
-			const flightsNum:int = map.activeFlightsNum;
-			if (!flightsNum) return;
-			var flightBounds:Rectangle;
-			var flightRadius:Number;
+			const planesNum:int = map.planesInFlyNum;
+			if (!planesNum) return;
+			var planeModel:PlaneModel;
 			var distance:Number;
-			const flightLocation:Point = new Point;
+			const planeLocation:Point = new Point();
 			const circle:CircleView = event.circle;
 			const circleBounds:Rectangle = circle.getBounds(map);
 			const circleLocation:Point = new Point();
@@ -62,16 +63,15 @@ package com.sots {
 			circleLocation.x = circleBounds.x + circleRadius;
 			circleLocation.y = circleBounds.y + circleRadius;
 			
-			for (var i:int = 0; i < map.activeFlightsNum; i++) {
-				flightBounds = map.getFlightBoundsByIndex(i);
-				if (!flightBounds) continue;
-				flightRadius = Math.max(flightBounds.width, flightBounds.height) / 2;
-				flightLocation.x = flightBounds.x + (flightBounds.width / 2);
-				flightLocation.y = flightBounds.y + (flightBounds.height / 2);
-				distance = Point.distance(flightLocation, circleLocation);
+			for (var i:int = 0; i < planesNum; i++) {
+				planeModel = map.getPlaneModelByIndex(i);
+				planeLocation.x = planeModel.centerX;
+				planeLocation.y = planeModel.centerY;
+				distance = Point.distance(planeLocation, circleLocation);
 				
-				if (distance < circleRadius + flightRadius) {
-					map.playCollisionByFlightIndex(i);
+				if (distance < circleRadius + planeModel.radius - 4) {
+					planesNum--;
+					map.playCollision(i);
 				}
 			}
 		}

@@ -15,7 +15,6 @@ package com.sots {
 			const image:Image = new Image(texture);
 			image.touchable = false;
 			image.x = image.y = -(image.width / 2);
-			trace(image.x, image.y);
 			addChild(image);
 		}
 		

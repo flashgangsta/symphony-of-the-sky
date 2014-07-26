@@ -7,7 +7,6 @@ package com.sots {
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
-	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	import starling.core.Starling;
 	import starling.display.Image;

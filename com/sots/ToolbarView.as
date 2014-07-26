@@ -1,20 +1,15 @@
 package com.sots {
-	import assets.bitmaps.SliderThumbDefault;
-	import assets.bitmaps.SliderThumbDown;
 	import assets.bitmaps.ToolbarBGBottom;
 	import assets.bitmaps.ToolbarBGCenter;
 	import assets.bitmaps.ToolbarBGTop;
 	import com.flashgangsta.managers.MappingManager;
 	import com.sots.events.ToolbarEvent;
 	import feathers.controls.Slider;
-	import feathers.display.Scale9Image;
-	import feathers.textures.Scale9Textures;
-	import flash.display.BitmapData;
-	import flash.geom.Rectangle;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
+	import starling.textures.TextureSmoothing;
 	
 	/**
 	 * ...
@@ -35,6 +30,10 @@ package com.sots {
 			bgTop.touchable = false;
 			bgCenter.touchable = false;
 			bgBottom.touchable = false;
+			
+			bgTop.smoothing = TextureSmoothing.TRILINEAR;
+			bgCenter.smoothing = TextureSmoothing.TRILINEAR;
+			bgBottom.smoothing = TextureSmoothing.TRILINEAR;
 			
 			bgCenter.y = bgTop.bounds.bottom;
 			bgBottom.y = bgCenter.bounds.bottom;
@@ -66,8 +65,6 @@ package com.sots {
 			speedSlider.value = .5;
 			speedSlider.y = bgBottom.y + 552;
 			addChild(speedSlider);
-			
-			trace(sizeSlider.value);
 		}
 		
 		public function get circleSize():Number {
@@ -79,12 +76,10 @@ package com.sots {
 		}
 		
 		private function changeSpeed(event:Event):void {
-			trace("Change speed to:", speedSlider.value);
 			dispatchEvent(new ToolbarEvent(ToolbarEvent.AREA_SPEED_CHANGED));
 		}
 		
 		private function changeRadius(event:Event):void {
-			trace("Change radius to:", sizeSlider.value);
 			dispatchEvent(new ToolbarEvent(ToolbarEvent.AREA_SIZE_CHANGED));
 		}
 		

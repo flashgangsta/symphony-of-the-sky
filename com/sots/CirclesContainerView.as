@@ -1,16 +1,10 @@
 package com.sots {
 	import caurina.transitions.Tweener;
-	import com.flashgangsta.managers.MappingManager;
 	import com.flashgangsta.starling.display.Shapes;
 	import com.sots.events.CircleEvent;
-	import flash.display.BitmapData;
-	import flash.display.Shape;
-	import flash.geom.Matrix;
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
-	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
 	

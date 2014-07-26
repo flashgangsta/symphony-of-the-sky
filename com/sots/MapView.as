@@ -3,8 +3,8 @@ package com.sots {
 	import assets.bitmaps.PlaneBMD;
 	import assets.WaypointsHolder;
 	import com.flashgangsta.starling.display.Shapes;
+	import com.sots.events.FlightEvent;
 	import flash.display.DisplayObject;
-	import flash.display.Shape;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import starling.display.Image;
@@ -23,7 +23,8 @@ package com.sots {
 		private const FLIGHTS:Class;
 		
 		private var flightsData:XML = new XML(new FLIGHTS().toString());
-		private const flightsContainer:Sprite = new Sprite();
+		private const planesContainer:Sprite = new Sprite();
+		private const collisionPlanesContainer:Sprite = new Sprite();
 		private var mapBMD:MapBMD = new MapBMD();
 		private var mapImage:Image = new Image(Texture.fromBitmapData(mapBMD));
 		private var collisionTexture:Texture;
@@ -57,40 +58,50 @@ package com.sots {
 				toMarker = waypointsHolder.getChildByName(flightData.@to);
 				fromPoint = new Point(int(fromMarker.x), int(fromMarker.y));
 				toPoint = new Point(int(toMarker.x), int(toMarker.y));
-				flightModel = new FlightModel(flightData, fromPoint, toPoint);
-				flight = new FlightView(planeBMD, flightModel);
-				flightsContainer.addChild(flight);
+				flightModel = new FlightModel(planeBMD, flightData, fromPoint, toPoint);
+				flight = new FlightView(flightModel);
+				flight.addEventListener(FlightEvent.PLANE_READY_TO_FLY, addPlane);
 				flight.startFlying();
 			}
 			
 			//init collision texture
 			collisionTexture = Shapes.getCircleTexture(Math.max(planeBMD.width, planeBMD.height) / 2 + 5, 0xff0042, 1);
 			
-			addChild(flightsContainer);
+			addChild(planesContainer);
 		}
 		
-		public function get activeFlightsNum():int {
-			return flightsContainer.numChildren;
+		private function addPlane(event:FlightEvent):void {
+			planesContainer.addChild(event.plane);
 		}
 		
-		public function getFlightBoundsByIndex(index:int):Rectangle {
-			var flight:FlightView = flightsContainer.getChildAt(index) as FlightView;
-			return flight.collisionPlayed ? null : flight.getBounds(this);
+		public function get planesInFlyNum():int {
+			return planesContainer.numChildren;
+		}
+		
+		public function getPlaneModelByIndex(index:int):PlaneModel {
+			const plane:PlaneView = planesContainer.getChildAt(index) as PlaneView;
+			const planeModel:PlaneModel = plane.getModel();
+			const planeBounds:Rectangle = plane.getBounds(this);
+			planeModel.centerX = planeBounds.x + (planeBounds.width / 2)
+			planeModel.centerY = planeBounds.y + (planeBounds.height / 2);
+			return planeModel;
 		}
 		
 		public function lockFlights():void {
-			removeChild(flightsContainer);
+			removeChild(planesContainer);
+			removeChild(collisionPlanesContainer);
 		}
 		
 		public function unlockFlights():void {
-			addChild(flightsContainer);
+			addChild(planesContainer);
+			addChild(collisionPlanesContainer);
 		}
 		
-		public function playCollisionByFlightIndex(index:int):void {
-			const flight:FlightView = flightsContainer.getChildAt(index) as FlightView;
-			const collisionCircle:CollisionCircleView = new CollisionCircleView(collisionTexture, flight);
-			flight.collisionPlayed = true;
-			flight.alpha = .5;
+		public function playCollision(index:int):void {
+			const plane:PlaneView = planesContainer.getChildAt(index) as PlaneView;
+			collisionPlanesContainer.addChild(plane);
+			//const collisionCircle:CollisionCircleView = new CollisionCircleView(collisionTexture, flight);
+			plane.alpha = .5;
 		}
 		
 	}

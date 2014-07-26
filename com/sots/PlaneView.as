@@ -1,7 +1,6 @@
 package com.sots {
 	import starling.display.Image;
 	import starling.display.Sprite;
-	import starling.textures.Texture;
 	
 	/**
 	 * ...
@@ -9,21 +8,19 @@ package com.sots {
 	 */
 	
 	public class PlaneView extends Sprite {
+		private var model:PlaneModel;
 		
-		public function PlaneView(texture:Texture) {
-			const image:Image = new Image(texture);
+		public function PlaneView(model:PlaneModel) {
+			this.model = model;
+			const image:Image = new Image(model.texture);
 			image.x = -Math.round(image.width / 2);
 			image.y = -Math.round(image.height / 2);
 			addChild(image);
 			touchable = false;
 		}
 		
-		/**
-		 * 
-		 */
-		
-		override public function dispose():void {
-			
+		public function getModel():PlaneModel {
+			return model;
 		}
 		
 	}
