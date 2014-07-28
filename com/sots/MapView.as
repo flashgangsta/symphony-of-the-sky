@@ -9,6 +9,7 @@ package com.sots {
 	import flash.geom.Rectangle;
 	import starling.display.Image;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
 
@@ -25,6 +26,7 @@ package com.sots {
 		private var flightsData:XML = new XML(new FLIGHTS().toString());
 		private const planesContainer:Sprite = new Sprite();
 		private const collisionPlanesContainer:Sprite = new Sprite();
+		private const collisionsContainer:Sprite = new Sprite();
 		private var mapBMD:MapBMD = new MapBMD();
 		private var mapImage:Image = new Image(Texture.fromBitmapData(mapBMD));
 		private var collisionTexture:Texture;
@@ -67,7 +69,10 @@ package com.sots {
 			//init collision texture
 			collisionTexture = Shapes.getCircleTexture(Math.max(planeBMD.width, planeBMD.height) / 2 + 5, 0xff0042, 1);
 			
+			collisionsContainer.addEventListener(Event.COMPLETE, onCollisionSircleComplete);
+			
 			addChild(planesContainer);
+			addChild(collisionsContainer);
 		}
 		
 		private function addPlane(event:FlightEvent):void {
@@ -84,6 +89,7 @@ package com.sots {
 			const planeBounds:Rectangle = plane.getBounds(this);
 			planeModel.centerX = planeBounds.x + (planeBounds.width / 2)
 			planeModel.centerY = planeBounds.y + (planeBounds.height / 2);
+			planeModel.planeID = plane.id;
 			return planeModel;
 		}
 		
@@ -100,8 +106,18 @@ package com.sots {
 		public function playCollision(index:int):void {
 			const plane:PlaneView = planesContainer.getChildAt(index) as PlaneView;
 			collisionPlanesContainer.addChild(plane);
-			//const collisionCircle:CollisionCircleView = new CollisionCircleView(collisionTexture, flight);
-			plane.alpha = .5;
+			const collisionCircle:CollisionCircleView = new CollisionCircleView(collisionTexture, plane, new Point(plane.x, plane.y));
+			collisionsContainer.addChild(collisionCircle);
+		}
+		
+		private function onCollisionSircleComplete(event:Event):void {
+			const plane:PlaneView = event.data as PlaneView;
+			event.stopImmediatePropagation();
+			if (plane.parent) {
+				planesContainer.addChild(plane);
+			} else {
+				plane.dispose();
+			}
 		}
 		
 	}

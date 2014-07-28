@@ -8,6 +8,7 @@ package com.sots.events {
 	 */
 	public class CircleEvent extends Event {
 		static public const UPDATED:String = "CircleUpdated";
+		static public const COMPLETE:String = "CircleComplete";
 		
 		public function CircleEvent(type:String, bubbles:Boolean=false, data:CircleView = null) { 
 			super(type, bubbles, data);

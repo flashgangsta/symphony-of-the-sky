@@ -6,6 +6,7 @@ package com.sots {
 	 */
 	public class PlaneModel {
 		
+		private var _planeID:int;
 		private var _radius:Number;
 		private var _texture:Texture;
 		private var _centerX:Number;
@@ -38,6 +39,14 @@ package com.sots {
 		
 		public function set centerY(value:Number):void {
 			_centerY = value;
+		}
+		
+		public function get planeID():int {
+			return _planeID;
+		}
+		
+		public function set planeID(value:int):void {
+			_planeID = value;
 		}
 		
 	}

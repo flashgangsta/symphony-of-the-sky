@@ -16,11 +16,13 @@ package com.sots {
 	public class Application extends Sprite {
 		
 		static public var STAGE_RECT:Rectangle;
+		static public var nextPlaneID:int = 1;
 		static public const MAX_TEXTURE_SIZE:int = 2048;
 		static public const IS_FLIGHTS_ANOUNSING_NEED:Boolean = false;
 		private var map:MapView = new MapView();
 		private var toolbar:ToolbarView = new ToolbarView();
 		private var circlesContainer:CirclesContainerView = new CirclesContainerView();
+		private var soundManager:SoundManager = SoundManager.getInstance();
 		
 		public function Application() {
 			super();
@@ -65,6 +67,9 @@ package com.sots {
 			
 			for (var i:int = 0; i < planesNum; i++) {
 				planeModel = map.getPlaneModelByIndex(i);
+				if (circle.isPlaneExistsInHistory(planeModel.planeID)) {
+					return;
+				}
 				planeLocation.x = planeModel.centerX;
 				planeLocation.y = planeModel.centerY;
 				distance = Point.distance(planeLocation, circleLocation);
@@ -72,6 +77,8 @@ package com.sots {
 				if (distance < circleRadius + planeModel.radius - 4) {
 					planesNum--;
 					map.playCollision(i);
+					circle.addCollisionHistory(planeModel.planeID);
+					soundManager.generateSound(planeLocation.x / toolbar.x, planeLocation.y / stage.stageHeight);
 				}
 			}
 		}

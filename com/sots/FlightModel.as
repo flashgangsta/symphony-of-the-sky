@@ -78,7 +78,7 @@ package com.sots {
 			enabledLocationsRect.height = Application.MAX_TEXTURE_SIZE + planeWithShadowBMD.height;
 			
 			//to x_left
-			if (_toPoint.x < enabledLocationsRect.x) {
+			/*if (_toPoint.x < enabledLocationsRect.x) {
 				_toPoint.x = enabledLocationsRect.x;
 			}
 			
@@ -119,7 +119,7 @@ package com.sots {
 			}
 			
 			//calculate after outside ways removed
-			_distance = Point.distance(fromPoint, toPoint);
+			_distance = Point.distance(fromPoint, toPoint);*/
 			
 			//remove garbage
 			planeWithShadowBMD.dispose();

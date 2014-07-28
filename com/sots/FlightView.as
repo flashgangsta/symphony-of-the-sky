@@ -92,7 +92,7 @@ package com.sots {
 				delay: .25,
 				transition: "easeInCubic",
 				onComplete: function():void {
-					removeChild(plane);
+					plane.parent.removeChild(plane);
 					plane.dispose();
 					plane = null;
 				}
