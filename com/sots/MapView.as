@@ -23,6 +23,9 @@ package com.sots {
 		[Embed(source="../../assets/fligshts.xml", mimeType="application/octet-stream")]
 		private const FLIGHTS:Class;
 		
+		static public const PX_IN_KM:Number = 2.473924256135846;
+		static public const SEC_IN_H:Number = (60 * 60) / 15;
+		
 		private var flightsData:XML = new XML(new FLIGHTS().toString());
 		private const planesContainer:Sprite = new Sprite();
 		private const collisionPlanesContainer:Sprite = new Sprite();
@@ -100,12 +103,12 @@ package com.sots {
 		
 		public function unlockFlights():void {
 			addChild(planesContainer);
-			addChild(collisionPlanesContainer);
+			//addChild(collisionPlanesContainer);
 		}
 		
 		public function playCollision(index:int):void {
 			const plane:PlaneView = planesContainer.getChildAt(index) as PlaneView;
-			collisionPlanesContainer.addChild(plane);
+			//collisionPlanesContainer.addChild(plane);
 			const collisionCircle:CollisionCircleView = new CollisionCircleView(collisionTexture, plane, new Point(plane.x, plane.y));
 			collisionsContainer.addChild(collisionCircle);
 		}
@@ -113,11 +116,7 @@ package com.sots {
 		private function onCollisionSircleComplete(event:Event):void {
 			const plane:PlaneView = event.data as PlaneView;
 			event.stopImmediatePropagation();
-			if (plane.parent) {
-				planesContainer.addChild(plane);
-			} else {
-				plane.dispose();
-			}
+			
 		}
 		
 	}

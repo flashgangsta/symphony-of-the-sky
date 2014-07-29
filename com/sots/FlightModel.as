@@ -77,6 +77,23 @@ package com.sots {
 			enabledLocationsRect.width = Application.MAX_TEXTURE_SIZE + planeWithShadowBMD.width;
 			enabledLocationsRect.height = Application.MAX_TEXTURE_SIZE + planeWithShadowBMD.height;
 			
+			//fromX
+			if (_fromPoint.x < enabledLocationsRect.x) {
+				trace( "#", _fromPoint, _toPoint);
+				const width:Number = _toPoint.x - _fromPoint.x;
+				const x:Number = enabledLocationsRect.x;
+				const y:Number = (x - _fromPoint.x) * (_fromPoint.y - _toPoint.y) / (_fromPoint.x - _toPoint.x) + _fromPoint.y;
+				_fromPoint = new Point(x, y);
+				trace( ">", _fromPoint, _toPoint);
+			}
+			
+			/*if (_fromPoint.y < enabledLocationsRect.y) {
+				const height:Number = _toPoint.y - _fromPoint.y;
+				const y:Number = enabledLocationsRect.y;
+				const x:Number = (x - _fromPoint.x) * (_fromPoint.y - _toPoint.y) / (_fromPoint.x - _toPoint.x) + _fromPoint.y;
+				trace( ">>", _fromPoint, _toPoint);
+			}*/
+			
 			//to x_left
 			/*if (_toPoint.x < enabledLocationsRect.x) {
 				_toPoint.x = enabledLocationsRect.x;
@@ -166,10 +183,6 @@ package com.sots {
 		
 		public function get distance():Number {
 			return _distance;
-		}
-		
-		public function get speed():Number {
-			return 20;
 		}
 		
 		public function get rotation():Number {

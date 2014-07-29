@@ -9,6 +9,8 @@ package com.sots {
 	 * @author Sergey Krivtsov (flashgangsta@gmail.com)
 	 */
 	public class FlightView extends Sprite {
+		private const SPEED_MIN:Number = 700;
+		private const SPEED_MAX:Number = 800;
 		private const MIN_FLIGHT_DELAY:Number = 10000;
 		private const MAX_FLIGHT_DELAY:Number = 40000;
 		private var model:FlightModel;
@@ -52,10 +54,12 @@ package com.sots {
 			const distance:Number = model.distance * distancePrecent;
 			const fromPointX:Number = model.toPoint.x + ((model.fromPoint.x - model.toPoint.x) * distancePrecent);
 			const fromPointY:Number = model.toPoint.y + ((model.fromPoint.y - model.toPoint.y) * distancePrecent);
+			const speedInKmH:Number = SPEED_MIN + (Math.random() * (SPEED_MAX - SPEED_MIN));
+			const speedInPxH:Number = speedInKmH * MapView.PX_IN_KM;
 			const motionParams:Object = {
 				x: model.toPoint.x,
 				y: model.toPoint.y,
-				time: distance / model.speed,
+				time: (distance / speedInPxH) * MapView.SEC_IN_H,
 				transition: "linear",
 				onComplete: function():void {
 					onPlaneArrival(plane);
@@ -70,7 +74,7 @@ package com.sots {
 			Tweener.addTween(plane, motionParams);
 			
 			const flightDelay:Number = MIN_FLIGHT_DELAY + Math.random() * (MAX_FLIGHT_DELAY - MIN_FLIGHT_DELAY);
-			setTimeout(startFly, flightDelay);
+			//setTimeout(startFly, flightDelay);
 			
 			if (Application.IS_FLIGHTS_ANOUNSING_NEED) {
 				trace("Flight:", '"model.number"', "from", model.fromCity, "to", model.toCity, "in fly. Next flight through", flightDelay);

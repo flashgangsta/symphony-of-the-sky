@@ -68,7 +68,7 @@ package com.sots {
 			for (var i:int = 0; i < planesNum; i++) {
 				planeModel = map.getPlaneModelByIndex(i);
 				if (circle.isPlaneExistsInHistory(planeModel.planeID)) {
-					return;
+					continue;
 				}
 				planeLocation.x = planeModel.centerX;
 				planeLocation.y = planeModel.centerY;
