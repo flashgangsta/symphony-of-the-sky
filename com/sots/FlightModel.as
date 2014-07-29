@@ -1,4 +1,5 @@
 package com.sots {
+	import com.flashgangsta.utils.MathUtil;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.PixelSnapping;
@@ -33,7 +34,6 @@ package com.sots {
 			_distance = Point.distance(fromPoint, toPoint);
 			_rotation = (Math.atan2(toPoint.y - fromPoint.y, toPoint.x - fromPoint.x));
 			_scale = Number(data.@size) / MAX_PLANE_SIZE;
-			
 			//DrawPlane
 			var planeBitmap:Bitmap = new Bitmap(planeBMD, PixelSnapping.NEVER);
 			var planeContainer:flash.display.Sprite = new flash.display.Sprite();
@@ -72,71 +72,80 @@ package com.sots {
 			_fromPoint = fromPoint;
 			
 			const enabledLocationsRect:Rectangle = new Rectangle();
-			enabledLocationsRect.x = -planeWithShadowBMD.width;
-			enabledLocationsRect.y = -planeWithShadowBMD.height;
-			enabledLocationsRect.width = Application.MAX_TEXTURE_SIZE + planeWithShadowBMD.width;
-			enabledLocationsRect.height = Application.MAX_TEXTURE_SIZE + planeWithShadowBMD.height;
+			const planeWidth:Number = planeWithShadowBMD.width / 2;
+			const planeHeight:Number = planeWithShadowBMD.height / 2;
+			enabledLocationsRect.x = -planeWidth;
+			enabledLocationsRect.y = -planeHeight;
+			enabledLocationsRect.width = Application.MAX_TEXTURE_SIZE + planeWidth;
+			enabledLocationsRect.height = Application.MAX_TEXTURE_SIZE + planeHeight;
 			
-			//fromX
-			if (_fromPoint.x < enabledLocationsRect.x) {
-				trace( "#", _fromPoint, _toPoint);
-				const width:Number = _toPoint.x - _fromPoint.x;
-				const x:Number = enabledLocationsRect.x;
-				const y:Number = (x - _fromPoint.x) * (_fromPoint.y - _toPoint.y) / (_fromPoint.x - _toPoint.x) + _fromPoint.y;
-				_fromPoint = new Point(x, y);
-				trace( ">", _fromPoint, _toPoint);
+			var fromX:Number = _fromPoint.x;
+			var fromY:Number = _fromPoint.y;
+			var toX:Number = _toPoint.x;
+			var toY:Number = _toPoint.y;
+			var x:Number;
+			var y:Number;
+			
+			if (_fromPoint.x < enabledLocationsRect.x || _fromPoint.y < enabledLocationsRect.y) {
+				x = enabledLocationsRect.x - _fromPoint.x;
+				y = enabledLocationsRect.y - _fromPoint.y;
+				
+				if (x > y) {
+					fromX = enabledLocationsRect.x;
+					fromY = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, fromX, _fromPoint.y, _toPoint.y, NaN);
+				} else {
+					fromY = enabledLocationsRect.y;
+					fromX = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, NaN, _fromPoint.y, _toPoint.y, fromY);
+				}
+				_fromPoint = new Point(fromX, fromY);
 			}
 			
-			/*if (_fromPoint.y < enabledLocationsRect.y) {
-				const height:Number = _toPoint.y - _fromPoint.y;
-				const y:Number = enabledLocationsRect.y;
-				const x:Number = (x - _fromPoint.x) * (_fromPoint.y - _toPoint.y) / (_fromPoint.x - _toPoint.x) + _fromPoint.y;
-				trace( ">>", _fromPoint, _toPoint);
-			}*/
-			
-			//to x_left
-			/*if (_toPoint.x < enabledLocationsRect.x) {
-				_toPoint.x = enabledLocationsRect.x;
+			if (_fromPoint.x > enabledLocationsRect.width || _fromPoint.y > enabledLocationsRect.height) {
+				x = _fromPoint.x - enabledLocationsRect.width;
+				y = _fromPoint.y - enabledLocationsRect.height;
+				
+				if (x > y) {
+					fromX = enabledLocationsRect.width;
+					fromY = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, fromX, _fromPoint.y, _toPoint.y, NaN);
+				} else {
+					fromY = enabledLocationsRect.height;
+					fromX = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, NaN, _fromPoint.y, _toPoint.y, fromY);
+				}
+				_fromPoint = new Point(fromX, fromY);
 			}
 			
-			//to x_right
-			if (_toPoint.x > enabledLocationsRect.width) {
-				_toPoint.x = enabledLocationsRect.width;
+			if (_toPoint.x < enabledLocationsRect.x || _toPoint.y < enabledLocationsRect.y) {
+				x = enabledLocationsRect.x - _toPoint.x;
+				y = enabledLocationsRect.y - _toPoint.y;
+				
+				if (x > y) {
+					toX = enabledLocationsRect.x;
+					toY = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, toX, _fromPoint.y, _toPoint.y, NaN);
+				} else {
+					toY = enabledLocationsRect.y;
+					toX = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, NaN, _fromPoint.y, _toPoint.y, toY);
+				}
+				_toPoint = new Point(toX, toY);
 			}
 			
-			
-			//form x_left
-			if (_fromPoint.x < enabledLocationsRect.x) {
-				_fromPoint.x = enabledLocationsRect.x;
+			if (_toPoint.x > enabledLocationsRect.width || _toPoint.y > enabledLocationsRect.height) {
+				x = _toPoint.x - enabledLocationsRect.width;
+				y = _toPoint.y - enabledLocationsRect.height;
+				
+				if (x > y) {
+					toX = enabledLocationsRect.width;
+					toY = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, toX, _fromPoint.y, _toPoint.y, NaN);
+				} else {
+					toY = enabledLocationsRect.height;
+					toX = MathUtil.pointCoordinate(_fromPoint.x, _toPoint.x, NaN, _fromPoint.y, _toPoint.y, toY);
+				}
+				_toPoint = new Point(toX, toY);
 			}
 			
-			//from x_right
-			if (_fromPoint.x > enabledLocationsRect.width) {
-				_fromPoint.x = enabledLocationsRect.width;
-			}
-			
-			//to y_top
-			if (_toPoint.y < enabledLocationsRect.y) {
-				_toPoint.y = enabledLocationsRect.y;
-			}
-			
-			//from y_yop
-			if (_fromPoint.y < enabledLocationsRect.y) {
-				_fromPoint.y = enabledLocationsRect.y;
-			}
-			
-			//to y_bottom
-			if (_toPoint.y > enabledLocationsRect.height) {
-				_toPoint.y = enabledLocationsRect.height;
-			}
-			
-			//from y_bottom
-			if (_fromPoint.y > enabledLocationsRect.height) {
-				_fromPoint.y = enabledLocationsRect.height;
-			}
+			_toPoint = new Point(toX, toY);
 			
 			//calculate after outside ways removed
-			_distance = Point.distance(fromPoint, toPoint);*/
+			_distance = Point.distance(_fromPoint, _toPoint);
 			
 			//remove garbage
 			planeWithShadowBMD.dispose();

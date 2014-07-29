@@ -24,7 +24,7 @@ package com.sots {
 		private const FLIGHTS:Class;
 		
 		static public const PX_IN_KM:Number = 2.473924256135846;
-		static public const SEC_IN_H:Number = (60 * 60) / 15;
+		static public const SEC_IN_H:Number = (60 * 60) / 450;
 		
 		private var flightsData:XML = new XML(new FLIGHTS().toString());
 		private const planesContainer:Sprite = new Sprite();
