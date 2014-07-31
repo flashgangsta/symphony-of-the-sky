@@ -18,7 +18,7 @@ package com.sots {
 		static public var STAGE_RECT:Rectangle;
 		static public var nextPlaneID:int = 1;
 		static public const MAX_TEXTURE_SIZE:int = 2048;
-		static public const IS_FLIGHTS_ANOUNSING_NEED:Boolean = true;
+		static public const IS_FLIGHTS_ANOUNSING_NEED:Boolean = false;
 		private var map:MapView = new MapView();
 		private var toolbar:ToolbarView = new ToolbarView();
 		private var circlesContainer:CirclesContainerView = new CirclesContainerView();
@@ -26,7 +26,6 @@ package com.sots {
 		
 		public function Application() {
 			super();
-			//new AeonDesktopTheme();
 		}
 		
 		public function startApplication():void {

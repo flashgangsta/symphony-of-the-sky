@@ -7,6 +7,7 @@ package com.sots {
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
+	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -61,6 +62,7 @@ package com.sots {
 			const launchImage:Image = new Image(Texture.fromBitmapData(this.launchImage.bitmapData));
 			launchImage.scaleX = this.launchImage.scaleX;
 			launchImage.scaleY = this.launchImage.scaleY;
+			launchImage.touchable = false;
 			
 			main.addChild(launchImage);
 			removeChild(this.launchImage);
@@ -71,7 +73,7 @@ package com.sots {
 				stage.frameRate = 31;
 			}
 			
-			setTimeout(main.startApplication, Math.max(0, 1/*3000 - getTimer()*/));
+			setTimeout(main.startApplication, Math.max(0, 4000 - getTimer()));
 		}
 		
 		/**

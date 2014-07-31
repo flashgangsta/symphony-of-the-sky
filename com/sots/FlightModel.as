@@ -9,6 +9,7 @@ package com.sots {
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
 	import starling.textures.Texture;
 	/**
 	 * ...
@@ -16,7 +17,6 @@ package com.sots {
 	 */
 	public class FlightModel {
 		
-		private const MAX_PLANE_SIZE:int = 60;
 		private const PLANE_SHADOW:DropShadowFilter = new DropShadowFilter(11, 45, 0, 1, 13, 13, .47, BitmapFilterQuality.HIGH);
 		
 		private var data:XML;
@@ -27,13 +27,17 @@ package com.sots {
 		private var _scale:Number;
 		private var _planeTexture:Texture;
 		private var _planeRadius:Number;
+		private var _planesSizeBySizeType:Dictionary = new Dictionary();
 		
 		public function FlightModel(planeBMD:BitmapData, data:XML, fromPoint:Point, toPoint:Point) {
 			this.data = data;
 			
+			_planesSizeBySizeType.small = 33;
+			_planesSizeBySizeType.middle = 37;
+			_planesSizeBySizeType.big = 60;
 			_distance = Point.distance(fromPoint, toPoint);
 			_rotation = (Math.atan2(toPoint.y - fromPoint.y, toPoint.x - fromPoint.x));
-			_scale = Number(data.@size) / MAX_PLANE_SIZE;
+			_scale = _planesSizeBySizeType[sizeType] / _planesSizeBySizeType.big;
 			//DrawPlane
 			var planeBitmap:Bitmap = new Bitmap(planeBMD, PixelSnapping.NEVER);
 			var planeContainer:flash.display.Sprite = new flash.display.Sprite();
@@ -174,10 +178,6 @@ package com.sots {
 			return data.@type;
 		}
 		
-		public function get size():String {
-			return data.@size;
-		}
-		
 		public function get number():String {
 			return data.@number;
 		}
@@ -208,6 +208,10 @@ package com.sots {
 		
 		public function get planeTexture():Texture {
 			return _planeTexture;
+		}
+		
+		public function get sizeType():String {
+			return String(data.@size).toLowerCase();
 		}
 		
 	}

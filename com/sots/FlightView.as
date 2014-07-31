@@ -1,7 +1,6 @@
 package com.sots {
 	import caurina.transitions.Tweener;
 	import com.sots.events.FlightEvent;
-	import flash.utils.setTimeout;
 	import starling.display.Sprite;
 	
 	/**
@@ -11,14 +10,14 @@ package com.sots {
 	public class FlightView extends Sprite {
 		private const SPEED_MIN:Number = 700;
 		private const SPEED_MAX:Number = 800;
-		private const MIN_FLIGHT_DELAY:Number = 10000;
-		private const MAX_FLIGHT_DELAY:Number = 40000;
 		private var model:FlightModel;
 		private var planeModel:PlaneModel;
+		private var _inFly:Boolean = false;
 		
 		public function FlightView(model:FlightModel) {
 			this.model = model;
-			planeModel = new PlaneModel(model.planeRadius, model.planeTexture);
+			planeModel = new PlaneModel(model.planeRadius, model.planeTexture, model.sizeType);
+			touchable = false;
 		}
 		
 		/**
@@ -33,23 +32,21 @@ package com.sots {
 		 * 
 		 */
 		
-		public function startFlying():void {
-			startFly(numChildren ? 1 : Math.random());
-		}
-		
-		/**
-		 * 
-		 */
-		
 		public function get planeScale():Number {
 			return model.scale;
 		}
 		
+		public function get inFly():Boolean {
+			return _inFly;
+		}
+		
 		/**
 		 * 
 		 */
 		
-		private function startFly(distancePrecent:Number = 1):void {
+		public function startFly(distancePrecent:Number = 1):void {
+			_inFly = true;
+			
 			const plane:PlaneView = new PlaneView(planeModel);
 			const distance:Number = model.distance * distancePrecent;
 			const fromPointX:Number = model.toPoint.x + ((model.fromPoint.x - model.toPoint.x) * distancePrecent);
@@ -73,11 +70,8 @@ package com.sots {
 			
 			Tweener.addTween(plane, motionParams);
 			
-			const flightDelay:Number = MIN_FLIGHT_DELAY + Math.random() * (MAX_FLIGHT_DELAY - MIN_FLIGHT_DELAY);
-			//setTimeout(startFly, flightDelay);
-			
 			if (Application.IS_FLIGHTS_ANOUNSING_NEED) {
-				trace("Flight:", '"model.number"', "from", model.fromCity, "to", model.toCity, "in fly. Next flight through", flightDelay);
+				trace("Flight:", '"model.number"', "from", model.fromCity, "to", model.toCity, "in fly.");
 			}
 		}
 		
@@ -86,6 +80,7 @@ package com.sots {
 		 */
 		
 		private function onPlaneArrival(plane:PlaneView):void {
+			_inFly = false;
 			if (Application.IS_FLIGHTS_ANOUNSING_NEED) { 
 				trace("Flight:", '"' + model.number + '"', "from", model.fromCity, "to", model.toCity, "arrived");
 			}
@@ -101,7 +96,10 @@ package com.sots {
 					plane = null;
 				}
 			}
+			
 			Tweener.addTween(plane, arriveMotion);
+			
+			dispatchEvent(new FlightEvent(FlightEvent.PLANE_ARRIVED));
 		}
 		
 	}

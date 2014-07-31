@@ -11,8 +11,10 @@ package com.sots {
 		private var _texture:Texture;
 		private var _centerX:Number;
 		private var _centerY:Number;
+		private var _sizeType:String;
 		
-		public function PlaneModel(radius:Number, texture:Texture) {
+		public function PlaneModel(radius:Number, texture:Texture, sizeType:String) {
+			_sizeType = sizeType;
 			_radius = radius;
 			_texture = texture;
 		}
@@ -47,6 +49,10 @@ package com.sots {
 		
 		public function set planeID(value:int):void {
 			_planeID = value;
+		}
+		
+		public function get sizeType():String {
+			return _sizeType;
 		}
 		
 	}

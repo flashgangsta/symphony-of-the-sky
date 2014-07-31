@@ -15,6 +15,7 @@ package com.sots {
 			_id = Application.nextPlaneID++;
 			this.model = model;
 			const image:Image = new Image(model.texture);
+			image.touchable = false;
 			image.x = -Math.round(image.width / 2);
 			image.y = -Math.round(image.height / 2);
 			addChild(image);

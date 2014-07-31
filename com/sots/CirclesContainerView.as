@@ -26,6 +26,7 @@ package com.sots {
 		
 		public function CirclesContainerView() {
 			super();
+			touchable = false;
 			texture = Shapes.getCircleTexture(RADIUS, 0xFF0042, .15);
 			previewCircle = new CircleView(texture);
 			previewCircle.visible = false;

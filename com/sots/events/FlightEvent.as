@@ -9,6 +9,7 @@ package com.sots.events {
 	public class FlightEvent extends Event {
 		
 		static public const PLANE_READY_TO_FLY:String = "PlaneReadyToFly";
+		static public const PLANE_ARRIVED:String = "planeArrived";
 		
 		public function FlightEvent(type:String, bubbles:Boolean=false, plane:PlaneView = null) { 
 			super(type, bubbles, plane);

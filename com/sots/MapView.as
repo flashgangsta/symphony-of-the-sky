@@ -3,6 +3,7 @@ package com.sots {
 	import assets.bitmaps.PlaneBMD;
 	import assets.WaypointsHolder;
 	import com.flashgangsta.starling.display.Shapes;
+	import com.flashgangsta.utils.ArrayMixer;
 	import com.sots.events.FlightEvent;
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
@@ -12,7 +13,6 @@ package com.sots {
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-
 	
 	/**
 	 * ...
@@ -24,15 +24,17 @@ package com.sots {
 		private const FLIGHTS:Class;
 		
 		static public const PX_IN_KM:Number = 2.473924256135846;
-		static public const SEC_IN_H:Number = (60 * 60) / 450;
+		static public const SEC_IN_H:Number = (60 * 60) / 15;
+		static public const DISPLAYED_PLANES_NUM:Number = 15;
 		
 		private var flightsData:XML = new XML(new FLIGHTS().toString());
 		private const planesContainer:Sprite = new Sprite();
-		private const collisionPlanesContainer:Sprite = new Sprite();
 		private const collisionsContainer:Sprite = new Sprite();
 		private var mapBMD:MapBMD = new MapBMD();
 		private var mapImage:Image = new Image(Texture.fromBitmapData(mapBMD));
 		private var collisionTexture:Texture;
+		private var flightIndexesQueue:Array;
+		private var flightsList:Vector.<FlightView> = new Vector.<FlightView>();
 		
 		public function MapView() {
 			var i:int;
@@ -66,7 +68,15 @@ package com.sots {
 				flightModel = new FlightModel(planeBMD, flightData, fromPoint, toPoint);
 				flight = new FlightView(flightModel);
 				flight.addEventListener(FlightEvent.PLANE_READY_TO_FLY, addPlane);
-				flight.startFlying();
+				flight.addEventListener(FlightEvent.PLANE_ARRIVED, onPlaneArrived);
+				flightsList.push(flight);
+			}
+			
+			flightIndexesQueue = ArrayMixer.getMixedNumbersArray(0, flightsLength - 1);
+			
+			for (i = 0; i < DISPLAYED_PLANES_NUM; i++) {
+				var currentIndex:int = flightIndexesQueue.pop();
+				flightsList[currentIndex].startFly(Math.random());
 			}
 			
 			//init collision texture
@@ -76,10 +86,6 @@ package com.sots {
 			
 			addChild(planesContainer);
 			addChild(collisionsContainer);
-		}
-		
-		private function addPlane(event:FlightEvent):void {
-			planesContainer.addChild(event.plane);
 		}
 		
 		public function get planesInFlyNum():int {
@@ -98,19 +104,56 @@ package com.sots {
 		
 		public function lockFlights():void {
 			removeChild(planesContainer);
-			removeChild(collisionPlanesContainer);
 		}
 		
 		public function unlockFlights():void {
 			addChild(planesContainer);
-			//addChild(collisionPlanesContainer);
 		}
 		
 		public function playCollision(index:int):void {
 			const plane:PlaneView = planesContainer.getChildAt(index) as PlaneView;
-			//collisionPlanesContainer.addChild(plane);
 			const collisionCircle:CollisionCircleView = new CollisionCircleView(collisionTexture, plane, new Point(plane.x, plane.y));
 			collisionsContainer.addChild(collisionCircle);
+			SoundManager.getInstance().playCollisionSound(plane.getModel().sizeType);
+			plane.getModel().sizeType
+		}
+		
+		/**
+		 * 
+		 * @param	event
+		 */
+		
+		private function onPlaneArrived(event:FlightEvent):void {
+			var currentIndex:int = flightIndexesQueue.pop();
+			var flight:FlightView = flightsList[currentIndex];
+			
+			while (flight.inFly) {
+				currentIndex = getFlightIndexesQueue().pop();
+				flight = flightsList[currentIndex];
+			}
+			
+			flight.startFly();
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		
+		private function getFlightIndexesQueue():Array {
+			if (!flightIndexesQueue.length) {
+				flightIndexesQueue = ArrayMixer.getMixedNumbersArray(0, flightsList.length - 1);
+			}
+			return flightIndexesQueue;
+		}
+		
+		/**
+		 * 
+		 * @param	event
+		 */
+		
+		private function addPlane(event:FlightEvent):void {
+			planesContainer.addChild(event.plane);
 		}
 		
 		private function onCollisionSircleComplete(event:Event):void {
