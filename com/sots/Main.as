@@ -8,7 +8,6 @@ package com.sots {
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 	import flash.media.SoundTransform;
-	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -36,7 +35,6 @@ package com.sots {
 		
 		public function Main() {
 			super();
-			startAppTime = getTimer();
 			addEventListener(flash.events.Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -100,7 +98,7 @@ package com.sots {
 				stage.frameRate = 31;
 			}
 			
-			setTimeout(main.startApplication, Math.max(0, 4000 - startAppTime));
+			setTimeout(main.startApplication, Math.max(0, 4000));
 		}
 		
 		/**
