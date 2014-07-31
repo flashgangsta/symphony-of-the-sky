@@ -1,4 +1,5 @@
 package com.sots {
+	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	
@@ -10,6 +11,7 @@ package com.sots {
 	public class PlaneView extends Sprite {
 		private var model:PlaneModel;
 		private var _id:Number;
+		private var table:PlaneTableView;
 		
 		public function PlaneView(model:PlaneModel) {
 			_id = Application.nextPlaneID++;
@@ -20,8 +22,11 @@ package com.sots {
 			image.y = -Math.round(image.height / 2);
 			addChild(image);
 			touchable = false;
-			
-			
+		}
+		
+		public function addTable(table:PlaneTableView):void {
+			this.table = table;
+			addChild(table);
 		}
 		
 		public function getModel():PlaneModel {
@@ -30,6 +35,22 @@ package com.sots {
 		
 		public function get id():Number {
 			return _id;
+		}
+		
+		override public function dispose():void {
+			removeChild(table);
+			table.dispose();
+			model = null;
+			table = null;
+			super.dispose();
+		}
+		
+		public function playCollision():void {
+			table.playCollision();
+		}
+		
+		public function stopCollision():void {
+			table.stopCollision();
 		}
 		
 	}

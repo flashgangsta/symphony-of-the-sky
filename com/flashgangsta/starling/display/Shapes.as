@@ -8,7 +8,7 @@ package com.flashgangsta.starling.display {
 	/**
 	 * ...
 	 * @author Sergey Krivtsov (flashgangsta@gmail.com)
-	 * @version 0.01 25/07/2014
+	 * @version 0.02 31/07/2014
 	 */
 	
 	public class Shapes {
@@ -17,7 +17,7 @@ package com.flashgangsta.starling.display {
 			
 		}
 		
-		static public function getCircleTexture(radius:Number, color:uint, alpha:Number = 1):Texture {
+		static public function getCircleTexture(radius:Number, color:uint = 0x000000, alpha:Number = 1):Texture {
 			const shape:Shape = new Shape();
 			const graphics:Graphics = shape.graphics;
 			const matrix:Matrix = new Matrix();
@@ -31,9 +31,31 @@ package com.flashgangsta.starling.display {
 			bitmapData.draw(shape, matrix);
 			texture = Texture.fromBitmapData(bitmapData);
 			bitmapData.dispose();
-			shape.graphics.clear();
+			graphics.clear();
 			
 			return texture;
+		}
+		
+		
+		
+		static public function getRectTexture(width:Number, height:Number, color:uint = 0x000000, alpha:Number = 1):Texture {
+			const shape:Shape = new Shape();
+			const graphics:Graphics = shape.graphics;
+			var bitmapData:BitmapData = new BitmapData(width, height, true, 0x00000000);
+			var texture:Texture;
+			
+			graphics.beginFill(color, alpha);
+			graphics.drawRect(0, 0, width, height);
+			graphics.endFill();
+			
+			bitmapData.draw(shape);
+			texture = Texture.fromBitmapData(bitmapData);
+			
+			bitmapData.dispose();
+			graphics.clear();
+			
+			return texture;
+			
 		}
 
 		

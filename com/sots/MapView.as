@@ -35,6 +35,7 @@ package com.sots {
 		private var collisionTexture:Texture;
 		private var flightIndexesQueue:Array;
 		private var flightsList:Vector.<FlightView> = new Vector.<FlightView>();
+		private var planeTablesContainer:Sprite = new Sprite();
 		
 		public function MapView() {
 			var i:int;
@@ -51,6 +52,8 @@ package com.sots {
 			const flightsLength:int = flightsXMLList.length();
 			const waypointsHolder:WaypointsHolder = new WaypointsHolder();
 			const planeBMD:PlaneBMD = new PlaneBMD();
+			var fromMarkerName:String;
+			var toMarkerName:String;
 			var flightModel:FlightModel;
 			var flightData:XML;
 			var fromMarker:DisplayObject;
@@ -61,8 +64,10 @@ package com.sots {
 			
 			for (i = 0; i < flightsLength; i++) {
 				flightData = flightsXMLList[i];
-				fromMarker = waypointsHolder.getChildByName(flightData.@from);
-				toMarker = waypointsHolder.getChildByName(flightData.@to);
+				fromMarkerName = (String(flightData.@from).charAt(0).toLocaleLowerCase() + String(flightData.@from).substr(1)).replace(" ", "");
+				toMarkerName = (String(flightData.@to).charAt(0).toLocaleLowerCase() + String(flightData.@to).substr(1)).replace(" ", "");
+				fromMarker = waypointsHolder.getChildByName(fromMarkerName);
+				toMarker = waypointsHolder.getChildByName(toMarkerName);
 				fromPoint = new Point(int(fromMarker.x), int(fromMarker.y));
 				toPoint = new Point(int(toMarker.x), int(toMarker.y));
 				flightModel = new FlightModel(planeBMD, flightData, fromPoint, toPoint);
@@ -85,6 +90,7 @@ package com.sots {
 			collisionsContainer.addEventListener(Event.COMPLETE, onCollisionSircleComplete);
 			
 			addChild(planesContainer);
+			addChild(planeTablesContainer);
 			addChild(collisionsContainer);
 		}
 		
@@ -95,9 +101,8 @@ package com.sots {
 		public function getPlaneModelByIndex(index:int):PlaneModel {
 			const plane:PlaneView = planesContainer.getChildAt(index) as PlaneView;
 			const planeModel:PlaneModel = plane.getModel();
-			const planeBounds:Rectangle = plane.getBounds(this);
-			planeModel.centerX = planeBounds.x + (planeBounds.width / 2)
-			planeModel.centerY = planeBounds.y + (planeBounds.height / 2);
+			planeModel.centerX = plane.x;
+			planeModel.centerY = plane.y;
 			planeModel.planeID = plane.id;
 			return planeModel;
 		}
@@ -113,6 +118,7 @@ package com.sots {
 		public function playCollision(index:int):void {
 			const plane:PlaneView = planesContainer.getChildAt(index) as PlaneView;
 			const collisionCircle:CollisionCircleView = new CollisionCircleView(collisionTexture, plane, new Point(plane.x, plane.y));
+			plane.playCollision();
 			collisionsContainer.addChild(collisionCircle);
 			SoundManager.getInstance().playCollisionSound(plane.getModel().sizeType);
 			plane.getModel().sizeType
@@ -159,6 +165,7 @@ package com.sots {
 		private function onCollisionSircleComplete(event:Event):void {
 			const plane:PlaneView = event.data as PlaneView;
 			event.stopImmediatePropagation();
+			plane.stopCollision();
 			
 		}
 		

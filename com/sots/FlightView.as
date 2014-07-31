@@ -48,6 +48,7 @@ package com.sots {
 			_inFly = true;
 			
 			const plane:PlaneView = new PlaneView(planeModel);
+			const planeTable:PlaneTableView = new PlaneTableView(model.fromCity, model.toCity, model.number);
 			const distance:Number = model.distance * distancePrecent;
 			const fromPointX:Number = model.toPoint.x + ((model.fromPoint.x - model.toPoint.x) * distancePrecent);
 			const fromPointY:Number = model.toPoint.y + ((model.fromPoint.y - model.toPoint.y) * distancePrecent);
@@ -63,6 +64,10 @@ package com.sots {
 				}
 			}
 			
+			plane.addTable(planeTable);
+			planeTable.x = Math.round( -planeTable.width / 2);
+			planeTable.y = -(model.planeRadius + planeTable.height);
+			
 			plane.x = fromPointX;
 			plane.y = fromPointY;
 			
@@ -73,6 +78,10 @@ package com.sots {
 			if (Application.IS_FLIGHTS_ANOUNSING_NEED) {
 				trace("Flight:", '"model.number"', "from", model.fromCity, "to", model.toCity, "in fly.");
 			}
+		}
+		
+		public function getModel():FlightModel {
+			return model;
 		}
 		
 		/**

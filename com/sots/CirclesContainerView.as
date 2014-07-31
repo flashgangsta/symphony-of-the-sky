@@ -13,9 +13,9 @@ package com.sots {
 	 * @author Sergey Krivtsov (flashgangsta@gmail.com)
 	 */
 	public class CirclesContainerView extends Sprite {
-		private const MAX_TIME:Number = 2;
+		private const MAX_TIME:Number = 1.8;
 		
-		private const RADIUS:int = 1024;
+		private const RADIUS:int = 450;
 		private const SCALE_TRANSITION:String = "easeOutCubic";
 		
 		private var texture:Texture;

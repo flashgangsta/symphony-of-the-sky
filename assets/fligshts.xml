@@ -2,158 +2,158 @@
 <data>
 	<fligshtsList>
 		<!-- 0 -->
-		<flight from="moscow"
-				to="minsk"
+		<flight from="Moscow"
+				to="Minsk"
 				type="A320"
 				number="SU1832"
 				size="middle" />
 		<!-- 1 -->
-		<flight from="moscow"
-				to="berlin"
+		<flight from="Moscow"
+				to="Berlin"
 				type="B737"
 				number="SU2318"
 				size="small" />
 		<!-- 2 -->
-		<flight from="moscow"
-				to="newYork"
+		<flight from="Moscow"
+				to="New York"
 				type="B777"
 				number="SU100"
 				size="big" />
 		<!-- 3 -->
-		<flight from="moscow"
-				to="london"
+		<flight from="Moscow"
+				to="London"
 				type="A330"
 				number="SU2578"
 				size="big" />
 		<!-- 4 -->
-		<flight from="moscow"
-				to="rome"
+		<flight from="Moscow"
+				to="Rome"
 				type="A320"
 				number="SU2400"
 				size="middle" />
 		<!-- 5 -->
-		<flight from="moscow"
-				to="losAngeles"
+		<flight from="Moscow"
+				to="Los Angeles"
 				type="B777"
 				number="SU106"
 				size="big" />
 		<!-- 6 -->
-		<flight from="moscow"
-				to="kaliningrad"
+		<flight from="Moscow"
+				to="Kaliningrad"
 				type="B737"
 				number="SU1002"
 				size="small" />
 		<!-- 7 -->
-		<flight from="moscow"
-				to="barcelona"
+		<flight from="Moscow"
+				to="Barcelona"
 				type="A320"
 				number="SU2638"
 				size="middle" />
 		<!-- 8 -->
-		<flight from="moscow"
-				to="prague"
+		<flight from="Moscow"
+				to="Prague"
 				type="A320"
 				number="SU2012"
 				size="middle" />
 		<!-- 9 -->
-		<flight from="moscow"
-				to="vilnus"
+		<flight from="Moscow"
+				to="Vilnus"
 				type="B737"
 				number="SU2108"
 				size="small" />
 		<!-- 10 -->
-		<flight from="minsk"
-				to="moscow"
+		<flight from="Minsk"
+				to="Moscow"
 				type="A320"
 				number="SU1833"
 				size="middle" />
 		<!-- 11 -->
-		<flight from="berlin"
-				to="moscow"
+		<flight from="Berlin"
+				to="Moscow"
 				type="A320"
 				number="SU2319"
 				size="middle" />
 		<!-- 12 -->
-		<flight from="newYork"
-				to="moscow"
+		<flight from="New York"
+				to="Moscow"
 				type="B777"
 				number="SU101"
 				size="big" />
 		<!-- 13 -->
-		<flight from="london"
-				to="moscow"
+		<flight from="London"
+				to="Moscow"
 				type="A330"
 				number="SU2579"
 				size="big" />
 		<!-- 14 -->
-		<flight from="rome"
-				to="moscow"
+		<flight from="Rome"
+				to="Moscow"
 				type="A320"
 				number="SU2401"
 				size="middle" />
 		<!-- 15 -->
-		<flight from="losAngeles"
-				to="moscow"
+		<flight from="Los Angeles"
+				to="Moscow"
 				type="B777"
 				number="SU107"
 				size="big" />
 		<!-- 16 -->
-		<flight from="kaliningrad"
-				to="moscow"
+		<flight from="Kaliningrad"
+				to="Moscow"
 				type="A320"
 				number="SU1003"
 				size="middle" />
 		<!-- 17 -->
-		<flight from="barcelona"
-				to="moscow"
+		<flight from="Barcelona"
+				to="Moscow"
 				type="A320"
 				number="SU2639"
 				size="middle" />
 		<!-- 18 -->
-		<flight from="prague"
-				to="moscow"
+		<flight from="Prague"
+				to="Moscow"
 				type="A320"
 				number="SU2013"
 				size="middle" />
 		<!-- 19 -->
-		<flight from="vilnus"
-				to="moscow"
+		<flight from="Vilnus"
+				to="Moscow"
 				type="B737"
 				number="SU2108"
 				size="small" />
 		<!-- 20 -->
-		<flight from="minsk"
-				to="stPetersburg"
+		<flight from="Minsk"
+				to="St Petersburg"
 				type="B737"
 				number="B2941"
 				size="small" />
 		<!-- 21 -->
-		<flight from="minsk"
-				to="reykjavik"
+		<flight from="Minsk"
+				to="Reykjavik"
 				type="B777"
 				number="B2941"
 				size="big" />
 		<!-- 22 -->
-		<flight from="minsk"
-				to="kiev"
+		<flight from="Minsk"
+				to="Kiev"
 				type="B737"
 				number="B2843"
 				size="small" />
 		<!-- 23 -->
-		<flight from="stPetersburg"
-				to="minsk"
+		<flight from="St Petersburg"
+				to="Minsk"
 				type="B737"
 				number="B2942"
 				size="small" />
 		<!-- 24 -->
-		<flight from="reykjavik"
-				to="minsk"
+		<flight from="Reykjavik"
+				to="Minsk"
 				type="B777"
 				number="B2802"
 				size="big" />
 		<!-- 25 -->
-		<flight from="kiev"
-				to="minsk"
+		<flight from="Kiev"
+				to="Minsk"
 				type="B737"
 				number="B2844"
 				size="small" />

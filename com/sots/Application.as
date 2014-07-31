@@ -1,9 +1,11 @@
 package com.sots {
 	import com.flashgangsta.managers.MappingManager;
+	import com.flashgangsta.starling.display.Shapes;
 	import com.sots.events.CircleEvent;
 	import com.sots.events.ToolbarEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -19,7 +21,7 @@ package com.sots {
 		static public var nextPlaneID:int = 1;
 		static public const MAX_TEXTURE_SIZE:int = 2048;
 		static public const IS_FLIGHTS_ANOUNSING_NEED:Boolean = false;
-		private var map:MapView = new MapView();
+		private var map:MapView = new MapView();;
 		private var toolbar:ToolbarView = new ToolbarView();
 		private var circlesContainer:CirclesContainerView = new CirclesContainerView();
 		private var soundManager:SoundManager = SoundManager.getInstance();
@@ -30,6 +32,7 @@ package com.sots {
 		
 		public function startApplication():void {
 			removeChildren();
+			
 			addChild(map);
 			addChild(circlesContainer);
 			addChild(toolbar);
@@ -71,6 +74,7 @@ package com.sots {
 				}
 				planeLocation.x = planeModel.centerX;
 				planeLocation.y = planeModel.centerY;
+				
 				distance = Point.distance(planeLocation, circleLocation);
 				
 				if (distance < circleRadius + planeModel.radius - 4) {

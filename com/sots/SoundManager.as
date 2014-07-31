@@ -17,6 +17,7 @@ package com.sots {
 	import flash.events.Event;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
 	import flash.utils.getDefinitionByName;
 	
 	/**
@@ -31,16 +32,14 @@ package com.sots {
 		
 		private var bgSound:BackgroundSound = new BackgroundSound();
 		private var bgSoundChannel:SoundChannel;
+		private var volume:Number = 1;
 		
 		/**
 		 *
 		 */
 		
 		public function SoundManager() {
-			if (!instance) {
-				instance = this;
-				init();
-				SoundSmall1;
+			SoundSmall1;
 			SoundSmall2;
 			SoundSmall3;
 			SoundSmall4;
@@ -52,6 +51,9 @@ package com.sots {
 			SoundBig2;
 			SoundBig3;
 			SoundBig4;
+			if (!instance) {
+				instance = this;
+				init();
 			} else {
 				throw new Error("SoundManager is singletone. Use static funtion getInstance() for get an instance of class");
 			}
@@ -81,6 +83,7 @@ package com.sots {
 				bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, playBgSoundLoop);
 			}
 			bgSoundChannel = bgSound.play();
+			bgSoundChannel.soundTransform = new SoundTransform(volume);
 			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, playBgSoundLoop);
 		}
 		
@@ -96,6 +99,11 @@ package com.sots {
 			const soundClass:Class = getDefinitionByName("assets.sounds." + soundClassName) as Class;
 			const sound:Sound = new soundClass() as Sound;
 			const channel:SoundChannel = sound.play();
+		}
+		
+		public function setVolume(volume:Number):void {
+			this.volume = volume;
+			bgSoundChannel.soundTransform = new SoundTransform(volume);
 		}
 	
 	}

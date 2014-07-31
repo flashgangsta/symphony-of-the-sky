@@ -7,17 +7,21 @@ package com.sots {
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
+	import flash.media.SoundTransform;
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
+	import starling.textures.TextureSmoothing;
 	
 	/**
 	 * ...
 	 * @author Sergey Krivtsov (flashgangsta@gmail.com)
 	 */
+	
+	[Frame(factoryClass="com.sots.Preloader")]
 	
 	public class Main extends Sprite {
 		
@@ -31,7 +35,11 @@ package com.sots {
 		
 		public function Main() {
 			super();
-			
+			addEventListener(flash.events.Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+		
+		private function onAddedToStage(event:flash.events.Event):void {
+			removeEventListener(flash.events.Event.ADDED_TO_STAGE, onAddedToStage);
 			launchImage.smoothing = true;
 			addChild(launchImage);
 			
@@ -44,9 +52,25 @@ package com.sots {
 			_starling = new Starling(Application, stage);
 			_starling.addEventListener(starling.events.Event.ROOT_CREATED, onRootCreated);
 			_starling.start();
+			stage.addEventListener(flash.events.Event.DEACTIVATE, onStageDeactivate);
 			
 			onStageRisized();
 			
+		}
+		
+		private function onStageDeactivate(event:flash.events.Event):void {
+			stage.addEventListener(flash.events.Event.ACTIVATE, onStageActivate);
+			stage.removeEventListener(flash.events.Event.DEACTIVATE, onStageDeactivate);
+			
+			_starling.stop();
+			SoundManager.getInstance().setVolume(0);
+		}
+		
+		private function onStageActivate(event:flash.events.Event):void {
+			stage.addEventListener(flash.events.Event.DEACTIVATE, onStageDeactivate);
+			stage.removeEventListener(flash.events.Event.ACTIVATE, onStageActivate);
+			_starling.start();
+			SoundManager.getInstance().setVolume(1);
 		}
 		
 		/**
@@ -57,12 +81,13 @@ package com.sots {
 		private function onRootCreated(event:starling.events.Event):void {
 			main = _starling.root as Application;
 			onStageRisized();
-			_starling.showStats = true;
+			//_starling.showStats = true;
 			
 			const launchImage:Image = new Image(Texture.fromBitmapData(this.launchImage.bitmapData));
 			launchImage.scaleX = this.launchImage.scaleX;
 			launchImage.scaleY = this.launchImage.scaleY;
 			launchImage.touchable = false;
+			launchImage.smoothing = TextureSmoothing.TRILINEAR;
 			
 			main.addChild(launchImage);
 			removeChild(this.launchImage);
