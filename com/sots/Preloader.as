@@ -43,6 +43,7 @@ package com.sots {
 			textField.setTextFormat(textFormat);
 			textField.defaultTextFormat = textFormat;
 			textField.embedFonts = true;
+			textField.selectable = false;
 			textField.antiAliasType = AntiAliasType.ADVANCED;
 			textFieldContainer.addChild(textField);
 			addChild(textFieldContainer);

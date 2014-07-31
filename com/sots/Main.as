@@ -28,6 +28,7 @@ package com.sots {
 		private var _starling:Starling;
 		private var launchImage:Bitmap = new Bitmap(new LaunchImageBMD());
 		private var main:Application;
+		private var startAppTime:int;
 		
 		/**
 		 * 
@@ -35,6 +36,7 @@ package com.sots {
 		
 		public function Main() {
 			super();
+			startAppTime = getTimer();
 			addEventListener(flash.events.Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -98,7 +100,7 @@ package com.sots {
 				stage.frameRate = 31;
 			}
 			
-			setTimeout(main.startApplication, Math.max(0, 4000 - getTimer()));
+			setTimeout(main.startApplication, Math.max(0, 4000 - startAppTime));
 		}
 		
 		/**
